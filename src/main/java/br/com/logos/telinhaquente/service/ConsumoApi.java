@@ -10,7 +10,7 @@ import java.net.http.HttpResponse;
 
 public class ConsumoApi {
 
-    public String obterDados (String endereco) {
+    public DadosDeMidia obterDados (String endereco) {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(endereco))
@@ -20,7 +20,7 @@ public class ConsumoApi {
                     HttpResponse<String> response = client.send(request, java.net.http.HttpResponse.BodyHandlers.ofString());
                     String json = response.body();
                     ObjectMapper objectMapper = new ObjectMapper();
-                    return mapper.readValue(json, DadosDeMidia.class);
+                    return objectMapper.readValue(json, DadosDeMidia.class);
 
                 } catch (IOException | InterruptedException e) {
                     throw new RuntimeException("Erro ao obter dados da API: " + e.getMessage(), e);
