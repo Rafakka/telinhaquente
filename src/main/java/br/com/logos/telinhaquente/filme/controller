@@ -1,0 +1,22 @@
+package br.com.telinhaquente.controller;
+
+import br.com.logos.telinhaquente.model.DadosDeMidia;
+import br.com.logos.telinhaquente.service.ConsumoApi;
+impor org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+public class FilmeController {
+    private final ConsumoApi consumoApi;
+
+    @Autowired
+    public FilmeController(ConsumoApi consumoApi) {
+        this.consumoApi = new consumoApi();
+    }
+
+    @GetMapping("/filme")
+    public DadosDeMidia obterDadosFilme(@RequestParam String titulo) {
+        String url = "http://www.omdbapi.com/?t=" + titulo + "&apikey=4f901358";
+        return consumoApi.obterDados(url);
+    }
+}

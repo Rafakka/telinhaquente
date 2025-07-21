@@ -1,0 +1,12 @@
+package br.com.logos.telinhaquente.model;
+
+import javax.json.bind.annotation.JsonbProperty;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+public record DadosDeMidia(
+	JsonbProperty("Title") String titulo,
+	@JsonProperty("totalTemporadas") int totalTemporadas,
+	@JsonProperty("avaliacao") String avaliacao
+) {
+}
