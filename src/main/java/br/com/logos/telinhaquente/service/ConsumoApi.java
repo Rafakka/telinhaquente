@@ -1,8 +1,11 @@
 package br.com.logos.telinhaquente.service;
 
-import br.com.logos.telinhaquente.model.RespostaApi;
+import br.com.logos.telinhaquente.config.OmdbProperties;
 import br.com.logos.telinhaquente.model.DadosDeMidia;
+import br.com.logos.telinhaquente.model.RespostaApi;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.net.URI;
@@ -10,31 +13,36 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-import javax.management.RuntimeErrorException;
-
+@Service
 public class ConsumoApi {
 
-    public DadosDeMidia obterDados (String endereco) {
+    @Autowired
+    private OmdbProperties omdbProperties;
+
+    public DadosDeMidia obterDados(String titulo) {
+        String endereco = "http://www.omdbapi.com/?t=" + titulo.replace(" ", "+") + "&apikey=" + omdbProperties.getKey();
+
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(endereco))
                 .build();
-                
-                try {
-                    HttpResponse<String> response = client.send(request, java.net.http.HttpResponse.BodyHandlers.ofString());
-                    String json = response.body();
-                    ObjectMapper mapper = new ObjectMapper();
 
-                    RespostaApi respostaApi = mapper.readValue(json, RespostaApi.class);
+        try {
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            String json = response.body();
 
-                    if ("False".equalsIgnoreCase(respostaApi.getResponse())){
-                        throw new RuntimeException("Erro na Api"+ respostaApi.getError());
-                    }
+            ObjectMapper mapper = new ObjectMapper();
 
-                    return mapper.readValue(json, DadosDeMidia.class);
+            RespostaApi respostaApi = mapper.readValue(json, RespostaApi.class);
 
-                } catch (IOException | InterruptedException e) {
-                    throw new RuntimeException("Erro ao obter dados da API: " + e.getMessage(), e);
-                }
+            if ("False".equalsIgnoreCase(respostaApi.getResponse())) {
+                throw new RuntimeException("Erro da API OMDb: " + respostaApi.getError());
+            }
+
+            return mapper.readValue(json, DadosDeMidia.class);
+
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException("Erro ao obter dados da API: " + e.getMessage(), e);
+        }
     }
 }

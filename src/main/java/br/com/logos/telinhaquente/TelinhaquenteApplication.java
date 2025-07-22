@@ -5,6 +5,7 @@ import br.com.logos.telinhaquente.service.ConsumoApi;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import java.util.Scanner;
+
 @SpringBootApplication
 public class TelinhaquenteApplication {
 
@@ -12,7 +13,10 @@ public class TelinhaquenteApplication {
         SpringApplication.run(TelinhaquenteApplication.class, args);
 
         Scanner scanner = new Scanner(System.in);
-        ConsumoApi consumoApi = new ConsumoApi();
+        ConsumoApi consumoApi = SpringApplication
+        .run(TelinhaquenteApplication.class, args)
+        .getBean(ConsumoApi.class);
+
 
         System.out.println("=== Telinha Quente CLI ===");
         System.out.println("Digite o nome do filme ou série (ou 'sair' para encerrar):");
@@ -26,18 +30,17 @@ public class TelinhaquenteApplication {
                 break;
             }
 
-            String url = "http://www.omdbapi.com/?t=" + entrada.replace(" ", "+") + "&apikey=4f901358";
-
             try {
-                DadosDeMidia midia = consumoApi.obterDados(url);
-                System.out.println("\n--- Resultado ---");
-                System.out.println("Título: " + midia.titulo());
-                System.out.println("Total de Temporadas: " + midia.totalTemporadas());
-                System.out.println("Avaliação IMDB: " + midia.avaliacao());
-                System.out.println("------------------\n");
-            } catch (Exception e) {
-                System.out.println("Erro ao buscar dados: " + e.getMessage());
-            }
+                    DadosDeMidia midia = consumoApi.obterDados(entrada);
+                    System.out.println("\n--- Resultado ---");
+                    System.out.println("Título: " + midia.titulo());
+                    System.out.println("Total de Temporadas: " + midia.totalDeTemporadas());
+                    System.out.println("Avaliação IMDB: " + midia.avaliacao());
+                    System.out.println("------------------\n");
+                } catch (RuntimeException e) {
+                    System.out.println("Erro ao buscar dados: " + e.getMessage());
+                }
+
         }
 
         scanner.close();

@@ -6,17 +6,17 @@ impor org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-public class FilmeController {
-    private final ConsumoApi consumoApi;
+@RequestMapping("/midia")
+public class MidiaController {
+
+    @service
+    private final ConsumoApi consumoApi = new ConsumoApi();
 
     @Autowired
-    public FilmeController(ConsumoApi consumoApi) {
-        this.consumoApi = new consumoApi();
-    }
-
-    @GetMapping("/filme")
-    public DadosDeMidia obterDadosFilme(@RequestParam String titulo) {
-        String url = "http://www.omdbapi.com/?t=" + titulo + "&apikey=4f901358";
-        return consumoApi.obterDados(url);
+    private OmdbProperties omdbProperties;
+    @GetMapping
+    public DadosDeMidia buscarMidia(@RequestParam String titulo) {
+        String endereco = "http://www.omdbapi.com/?t=" + titulo.replace(" ", "+") + "&omdbProperties.getKey()";
+        return consumoApi.obterDados(endereco);
     }
 }
