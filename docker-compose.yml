@@ -4,9 +4,9 @@ services:
     build: ./backend-spring-boot
     container_name: telinha-backend
     ports:
-      - "8088:8080"
+      - "8082:8088"
     environment:
-      - SERVER_PORT=8080
+      - SERVER_PORT=8088
       - SPRING_PROFILES_ACTIVE=default
       - SPRING_APPLICATION_NAME=telinhaquente
       - OMDB_API_KEY=4f901358
