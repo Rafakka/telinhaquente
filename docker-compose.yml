@@ -1,3 +1,4 @@
+version: "3.8"
 
 services:
 
@@ -31,9 +32,9 @@ services:
     build: ./backend-spring-boot
     container_name: telinha-backend
     environment:
-      - SERVER_PORT=8091
       - SPRING_PROFILES_ACTIVE=telinhaquente
       - OMDB_API_KEY=4f901358
+    entrypoint: ["java", "-Dserver.port=8091", "-jar", "app.jar"]
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.backend.rule=Host(`backend.localhost`)"
