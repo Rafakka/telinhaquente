@@ -5,6 +5,7 @@ pipeline {
 
         stage('Buildar containers') {
             steps {
+                sh 'docker compose down || true'
                 sh 'docker compose build'
             }
         }
