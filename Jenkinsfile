@@ -2,17 +2,19 @@ pipeline {
     agent any
 
     stages {
-        stage ('Clonar codigo'){
+        stage('Clonar código') {
             steps {
-                git'https://github.com/Rafakka/telinhaquente.git'
+                git 'https://github.com/Rafakka/telinhaquente'
             }
         }
-        stage('Buildar Containers'){
+
+        stage('Buildar containers') {
             steps {
                 sh 'docker compose build'
             }
         }
-        stage ('Subir Containers') {
+
+        stage('Subir containers') {
             steps {
                 sh 'docker compose up -d'
             }
@@ -20,13 +22,11 @@ pipeline {
     }
 
     post {
-        sucess {
-            echo 'Aplicação em execucação via Docker com sucesso!'
+        success {
+            echo 'Aplicação em execução via Docker com sucesso!'
         }
         failure {
-            echo 'Algo deu errado durante o pipeline'
+            echo 'Algo deu errado durante o pipeline.'
         }
-
     }
-
 }
