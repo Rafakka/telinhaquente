@@ -2,11 +2,6 @@ pipeline {
     agent any
 
     stages {
-        stage('Clonar código') {
-            steps {
-                git 'https://github.com/Rafakka/telinhaquente'
-            }
-        }
 
         stage('Buildar containers') {
             steps {
