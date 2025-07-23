@@ -2,6 +2,17 @@
   "version": "2.0.0",
   "tasks": [
     {
+      "label": "Matar processo na porta",
+      "type": "shell",
+      "command": "PORT=8085 && PID=$(sudo lsof -t -i :$PORT) && if [ -n \"$PID\" ]; then echo \"Matando processo na porta $PORT (PID: $PID)\" && sudo kill -9 $PID; else echo \"Porta $PORT já está livre\"; fi",
+      "problemMatcher": [],
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      }
+    },
+
+    {
       "label": "Start Backend",
       "type": "shell",
       "command": "./mvnw spring-boot:run",
