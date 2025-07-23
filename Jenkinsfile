@@ -3,18 +3,20 @@ pipeline {
 
     stages {
 
-        stage('Buildar containers') {
-            steps {
-                sh 'docker compose down || true'
-                sh 'docker compose build'
-            }
-        }
+    stage('Resetar ambiente') {
+    steps {
+        echo 'Derrubando containers antigos'
+        sh 'docker compose down || true'
+    }
+    }
 
-        stage('Subir containers') {
-            steps {
-                sh 'docker compose up -d'
-            }
-        }
+    stage('Buildar e subir containers') {
+    steps {
+        echo 'Buildando e subindo containers'
+        sh 'docker compose up -d --build'
+    }
+    }
+
     }
 
     post {
