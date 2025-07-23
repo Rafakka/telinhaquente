@@ -12,7 +12,7 @@ function BuscarMidia() {
             setErro(null);
             setDados(null);
 
-            const response = await fetch("http://telinha-backend:8085/midia?t=" + encodeURIComponent(titulo));
+            const response = await fetch("http://telinha-backend:8088/midia?t=" + encodeURIComponent(titulo));
             if (!response.ok) {
                 throw new Error('Erro ao buscar mídia');
             }

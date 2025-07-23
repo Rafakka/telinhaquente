@@ -1,7 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 
-const API_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost:8080";
+const API_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost:8088";
 
 export async function fetchMidia(titulo) {
   const response = await fetch(`${API_URL}/midia?t=${titulo}`);
