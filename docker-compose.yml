@@ -31,15 +31,15 @@ services:
     build: ./backend-spring-boot
     container_name: telinha-backend
     environment:
-      - SERVER_PORT=8090
+      - SERVER_PORT=8091
       - SPRING_PROFILES_ACTIVE=telinhaquente
       - OMDB_API_KEY=4f901358
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.backend.rule=Host(`backend.localhost`)"
-      - "traefik.http.services.backend.loadbalancer.server.port=8090"
+      - "traefik.http.services.backend.loadbalancer.server.port=8091"
     networks:
-      - telinha-net
+      - web
 
   jenkins:
     image: jenkins/jenkins:lts

@@ -1,10 +1,19 @@
-FROM eclipse-temurin:17-jdk AS builder
+FROM eclipse-temurin:17-jdk AS BUILDER
 WORKDIR /app
-COPY . .
+COPY mvnw .
+COPY .mvn .mvn
+COPY pom.xml .
+
+RUN ./mvnw dependency:go-offline
+
+COPY src src
+
 RUN ./mvnw clean package -DskipTests
 
 FROM eclipse-temurin:17-jdk
 WORKDIR /app
 COPY --from=builder /app/target/telinhaquente-0.0.1-SNAPSHOT.jar app.jar
-EXPOSE 8090
-ENTRYPOINT ["java", "-jar", "app.jar"]
+
+EXPOSE 8091
+
+ENTRYPOINT ["java", "-Dserver.port=8091","-jar", "app.jar"]
