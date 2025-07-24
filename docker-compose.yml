@@ -28,19 +28,19 @@ services:
     networks:
       - web
 
-  backend:
-    build: ./backend-spring-boot
-    container_name: telinha-backend
-    environment:
-      - SPRING_PROFILES_ACTIVE=telinhaquente
-      - OMDB_API_KEY=4f901358
-    entrypoint: ["java", "-Dserver.port=8091", "-jar", "app.jar"]
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.backend.rule=Host(`backend.localhost`)"
-      - "traefik.http.services.backend.loadbalancer.server.port=8091"
-    networks:
-      - web
+backend:
+  build: ./backend-spring-boot
+  container_name: telinha-backend
+  environment:
+    - SERVER_PORT=8091
+    - SPRING_PROFILES_ACTIVE=telinhaquente
+    - OMDB_API_KEY=4f901358
+  labels:
+    - "traefik.enable=true"
+    - "traefik.http.routers.backend.rule=Host(`backend.localhost`)"
+    - "traefik.http.services.backend.loadbalancer.server.port=8091"
+  networks:
+    - web
 
   jenkins:
     image: jenkins/jenkins:lts
