@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import './App.css';
 
-const API_URL = "http://backend.localhost/midia";
+const API_URL = process.env.NODE_ENV === 'development' 
+  ? "http://localhost:8091/midia" 
+  : "/api/midia";
 
 function App() {
   const [titulo, setTitulo] = useState("");
@@ -10,8 +12,9 @@ function App() {
 
   const buscarMidia = async () => {
     try {
-      const response = await fetch(`${API_URL}?t=${encodeURIComponent(titulo)}`);
-      
+      const response = await fetch(`${process.env.REACT_APP_API_URL}?t=${encodeURIComponent(titulo)}`, {
+  credentials: 'include'
+})
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || "Erro na requisição");

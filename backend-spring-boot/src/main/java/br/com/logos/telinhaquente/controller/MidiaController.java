@@ -10,18 +10,14 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/midia")
 public class MidiaController {
 
-    @Autowired
-    private ConsumoApi consumoApi;
+    private final ConsumoApi consumoApi;
+
+    public MidiaController(ConsumoApi consumoApi) {
+        this.consumoApi = consumoApi;
+    }
 
     @GetMapping
-    public ResponseEntity<?> buscarMidia(@RequestParam String t) {
-        try {
-            DadosDeMidia midia = consumoApi.obterDados(t);
-            return ResponseEntity.ok(midia);
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(
-                "Erro ao buscar mídia: " + e.getMessage()
-            );
-        }
+    public Mono<DadosDeMidia> buscarMidia(@RequestParam String t) {
+        return consumoApi.obterDados(t);
     }
 }

@@ -1,15 +1,17 @@
 services:
   traefik:
     image: traefik:v2.11
+    restart: unless-stopped
     container_name: traefik
     command:
       - "--api.dashboard=true"
       - "--api.insecure=true"
       - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
       - "--entrypoints.web.address=:80"
     ports:
-      - "80:80"
-      - "8080:8080"
+      - "8083:80"    
+      - "8084:8080"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
     networks:
@@ -19,12 +21,13 @@ services:
     build: ./frontend-react
     container_name: telinha-frontend
     environment:
-      - REACT_APP_BACKEND_URL=http://backend.localhost
+      - NODE_ENV=production
+      - REACT_APP_API_URL=http://backend.localhost/api/midia
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.frontend.rule=Host(`frontend.localhost`)"
       - "traefik.http.routers.frontend.entrypoints=web"
-      - "traefik.http.services.frontend.loadbalancer.server.port=3001"
+      - "traefik.http.services.frontend.loadbalancer.server.port=80"
     depends_on:
       - backend
     networks:
@@ -33,13 +36,18 @@ services:
   backend:
     build: ./backend-spring-boot
     container_name: telinha-backend
+    ports:
+      - "8091:8091"
     environment:
+      - SERVER_ADDRESS=0.0.0.0
+      - SERVER_PORT=8091
       - SPRING_PROFILES_ACTIVE=telinhaquente
       - OMDB_API_KEY=4f901358
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.backend.rule=Host(`backend.localhost`)"
       - "traefik.http.routers.backend.entrypoints=web"
+      - "traefik.http.services.backend.loadbalancer.server.port=8091"
     networks:
       - web
 
@@ -50,6 +58,7 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.jenkins.rule=Host(`jenkins.localhost`)"
       - "traefik.http.routers.jenkins.entrypoints=web"
+      - "traefik.http.services.jenkins.loadbalancer.server.port=8080"
     volumes:
       - jenkins_data:/var/jenkins_home
     networks:
