@@ -5,12 +5,11 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-public class CorsConfig implements WebFluxConfigurer {
-    
+public class CorsConfig implements WebMvcConfigurer {
     @Override
-    public void addCorsMappings(CorsWebRegistry registry) {
+    public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-            .allowedOrigins("*")
-            .allowedMethods("*");
+                .allowedOrigins("*")
+                .allowedMethods("GET", "POST");
     }
 }
