@@ -1,6 +1,5 @@
 package br.com.logos.telinhaquente.model;
 
-
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
