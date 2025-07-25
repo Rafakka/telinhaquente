@@ -1,0 +1,50 @@
+<div class="min-h-screen bg-gray-100 text-gray-900 font-sans relative overflow-hidden">
+  <!-- Fundo de imagens coladas em colunas -->
+  <div class="absolute inset-0 z-0 grid grid-cols-3 opacity-30 blur-sm">
+    <img src="https://i.pinimg.com/originals/b3/08/5d/b3085d56144156620629932666e20ac1.jpg" class="w-full h-full object-cover" />
+    <img src="https://i.pinimg.com/originals/32/4b/7a/324b7a7c6d39d7c9d318946cddc3e0e5.jpg" class="w-full h-full object-cover" />
+    <img src="https://i.pinimg.com/originals/7e/dc/2d/7edc2d8f68a725f4fa3c3f59dbb85f33.jpg" class="w-full h-full object-cover" />
+  </div>
+
+  <!-- Conteúdo principal -->
+  <div class="relative z-10 flex flex-col items-center justify-center min-h-screen p-4 bg-white/80 backdrop-blur-md">
+    <!-- Logo -->
+    <div class="flex items-center mb-6 space-x-3">
+      <span class="text-3xl md:text-4xl font-bold text-red-600 tracking-wide" style="font-family: 'Cinzel', serif;">Telinha</span>
+      <img src="https://cdn-icons-png.flaticon.com/512/2934/2934084.png" class="w-8 h-8 md:w-10 md:h-10 animate-bounce" alt="Pipoca" />
+      <span class="text-3xl md:text-4xl font-bold text-yellow-500 tracking-wide" style="font-family: 'Cinzel', serif;">Quente</span>
+    </div>
+
+    <!-- Input -->
+    <div class="w-full max-w-md text-center mb-4">
+      <input
+        type="text"
+        placeholder="Digite o nome do filme"
+        class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-red-300 text-base"
+      />
+    </div>
+
+    <!-- Botão -->
+    <button
+      class="bg-red-500 text-white px-6 py-2 rounded-full hover:bg-red-600 transition text-sm uppercase tracking-wider shadow"
+    >
+      Buscar
+    </button>
+
+    <!-- Resultado (Card) -->
+    <div class="mt-10 bg-white/90 rounded-xl shadow-xl overflow-hidden w-full max-w-4xl flex flex-col md:flex-row">
+      <img src="https://upload.wikimedia.org/wikipedia/en/0/03/Leon-poster.jpg" alt="Poster do Filme" class="w-full md:w-1/3 object-cover" />
+      <div class="p-6 text-left space-y-2">
+        <h2 class="text-2xl font-bold text-gray-800" style="font-family: 'Cinzel', serif;">Léon: The Professional</h2>
+        <p class="text-sm text-gray-700"><span class="font-semibold">Ano:</span> 1994</p>
+        <p class="text-sm text-gray-700"><span class="font-semibold">Gênero:</span> Crime, Drama, Thriller</p>
+        <p class="text-sm text-gray-700"><span class="font-semibold">Avaliação:</span> 8.5</p>
+        <!-- Temporadas condicional: aqui você removeria via lógica JS no React se não existir -->
+        <!-- <p class="text-sm text-gray-700"><span class="font-semibold">Temporadas:</span> 1</p> -->
+        <p class="text-sm text-gray-700 pt-2 leading-relaxed">
+          Léon, um assassino profissional solitário, assume a guarda de Mathilda, uma jovem cuja família foi assassinada. Um vínculo inesperado floresce enquanto ela busca vingança.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
