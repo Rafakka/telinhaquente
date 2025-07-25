@@ -1,4 +1,3 @@
-version: "3.8"
 
 services:
 
@@ -12,7 +11,7 @@ services:
       - "--entrypoints.web.address=:80"
     ports:
       - "80:80"
-      - "8082:8080"
+      - "8091:8091"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
     networks:
@@ -27,6 +26,7 @@ services:
       - "traefik.http.services.frontend.loadbalancer.server.port=80"
     networks:
       - web
+
   backend:
     build: ./backend-spring-boot
     container_name: telinha-backend
@@ -34,12 +34,12 @@ services:
       - SERVER_PORT=8091
       - SPRING_PROFILES_ACTIVE=telinhaquente
       - OMDB_API_KEY=4f901358
-  labels:
-    - "traefik.enable=true"
-    - "traefik.http.routers.backend.rule=Host(`backend.localhost`)"
-    - "traefik.http.services.backend.loadbalancer.server.port=8091"
-  networks:
-    - web
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.backend.rule=Host(`backend.localhost`)"
+      - "traefik.http.services.backend.loadbalancer.server.port=8091"
+    networks:
+      - web
 
   jenkins:
     image: jenkins/jenkins:lts
