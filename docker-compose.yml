@@ -7,36 +7,41 @@ services:
       - "--api.dashboard=true"
       - "--api.insecure=true"
       - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
       - "--entrypoints.web.address=:80"
     ports:
-      -"80:80"
-      -"8082:8080"
+      - "80:80"
+      - "8082:8080"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
     networks:
       - web
+
   frontend:
     build: ./frontend-react
     container_name: telinha-frontend
+    environment:
+      - REACT_APP_BACKEND_URL=http://backend.localhost
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.frontend.rule=Host(`frontend.localhost`)"
       - "traefik.http.routers.frontend.entrypoints=web"
-      - "traefik.http.services.frontend.loadbalancer.server.port=80"
+      - "traefik.http.services.frontend.loadbalancer.server.port=3001"
+    depends_on:
+      - backend
     networks:
       - web
+
   backend:
     build: ./backend-spring-boot
     container_name: telinha-backend
     environment:
-      - SERVER_PORT=8091
       - SPRING_PROFILES_ACTIVE=telinhaquente
       - OMDB_API_KEY=4f901358
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.backend.rule=Host(`backend.localhost`)"
-      - "traefik.http.router.backend.entrypoints=web"
-      - "traefik.http.services.backend.loadbalancer.server.port=8091"
+      - "traefik.http.routers.backend.entrypoints=web"
     networks:
       - web
 
