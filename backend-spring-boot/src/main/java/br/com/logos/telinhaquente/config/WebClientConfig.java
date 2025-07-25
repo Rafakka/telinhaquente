@@ -6,9 +6,9 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 @Configuration
 public class WebClientConfig {
-
+    
     @Bean
     public WebClient webClient(WebClient.Builder builder) {
-        return builder.baseUrl("http://www.omdbapi.com").build();
+        return builder.baseUrl("https://www.omdbapi.com").build();
     }
 }
